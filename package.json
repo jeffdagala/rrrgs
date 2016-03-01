@@ -1,0 +1,29 @@
+{
+  "name": "redux-scratch",
+  "version": "0.1.0",
+  "description": "React with Redux and its DevTools with Relay and GraphQL via SocketIO-JWT",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/electricjesus/rrrgs.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "relay",
+    "graphql",
+    "socket",
+    "koa",
+    "redux-devtools",
+    "jwt"
+  ],
+  "author": "Seth Malaki <seth.malaki@gmail.com>",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/electricjesus/rrrgs/issues"
+  },
+  "homepage": "https://github.com/electricjesus/rrrgs#readme"
+}
