@@ -1,5 +1,5 @@
 {
-  "name": "redux-scratch",
+  "name": "rrrgs",
   "version": "0.1.0",
   "description": "React with Redux and its DevTools with Relay and GraphQL via SocketIO-JWT",
   "main": "index.js",
