@@ -7,12 +7,8 @@ import { Kind } from 'graphql/language';
 
 const EmailType = new GraphQLScalarType({
   name: 'Email',
-  serialize: value => {
-    return value;
-  },
-  parseValue: value => {
-    return value;
-  },
+  serialize: value => value,
+  parseValue: value => value,
   parseLiteral: ast => {
       // Regex taken from: http://stackoverflow.com/a/46181/761555
     const re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -29,4 +25,4 @@ const EmailType = new GraphQLScalarType({
   }
 });
 
-export { EmailType };
+export default EmailType;

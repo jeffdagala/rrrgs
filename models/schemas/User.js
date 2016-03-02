@@ -32,17 +32,14 @@ const UserDef = {
   },
   lastName: {
     ...SEQUELIZE_REQUIRED_STRING
+  },
+  email: {
+    ...SEQUELIZE_REQUIRED_STRING,
+    validate: {
+      isEmail: true
+    }
   }
-  // ,
-  // email: {
-  //   ...SEQUELIZE_REQUIRED_STRING,
-  //   validate: {
-  //     isEmail: true
-  //   }
-  // }
 };
-
-
 
 const User = sequelize.define('user', UserDef);
 
@@ -64,12 +61,11 @@ const UserType = new GraphQLObjectType({
     lastName: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The last name of a particular user.'
+    },
+    email: {
+      type: EmailType,
+      description: 'A valid email address'
     }
-    // ,
-    // email: {
-    //   type: EmailType,
-    //   description: 'A valid email address'
-    // }
     // todos: {
     //   type: new GraphQLList(TodoType),
     //   resolve: resolver(User.Todos. { separate: true })
@@ -78,4 +74,4 @@ const UserType = new GraphQLObjectType({
   interfaces: [ nodeInterface ]
 });
 
-export { User, UserType };
+export { User, UserType, UserDef };
