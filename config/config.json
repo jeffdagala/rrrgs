@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": null,
+    "password": null,
+    "database": "database_development",
+    "storage" : "/tmp/database_development.sqlite",
+    "dialect" : "sqlite"
+  },
+  "test": {
+    "username": null,
+    "password": null,
+    "database": "database_test",
+    "storage" : "/tmp/database_test.sqlite",
+    "dialect" : "sqlite"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "database_production",
+    "host"    : "app_db",
+    "dialect" : "postgres"
+  }
+}
