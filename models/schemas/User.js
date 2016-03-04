@@ -9,12 +9,16 @@ import {
 } from 'graphql';
 
 import EmailType from './types';
-
+// import { resolver } from 'graphql-sequelize';
 import { sequelizeNodeInterface } from 'graphql-sequelize/lib/relay';
 
 const {
   nodeInterface
 } = sequelizeNodeInterface(sequelize);
+
+import {
+  mutationWithClientMutationId
+} from 'graphql-relay';
 
 // import {
 //   resolver
@@ -43,6 +47,21 @@ const UserDef = {
 
 const User = sequelize.define('user', UserDef);
 
+const UserFields = {
+  firstName: {
+    type: new GraphQLNonNull(GraphQLString),
+    description: 'The first/given name of a particular user.'
+  },
+  lastName: {
+    type: new GraphQLNonNull(GraphQLString),
+    description: 'The last name of a particular user.'
+  },
+  email: {
+    type: EmailType,
+    description: 'A valid email address'
+  }
+};
+
 // TODO: make the relation
 // User.Todos = User.hasMany(Todo, {as: 'todos'});
 
@@ -54,18 +73,7 @@ const UserType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLID),
       description: 'The id of the user.'
     },
-    firstName: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The first/given name of a particular user.'
-    },
-    lastName: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The last name of a particular user.'
-    },
-    email: {
-      type: EmailType,
-      description: 'A valid email address'
-    }
+    ...UserFields
     // todos: {
     //   type: new GraphQLList(TodoType),
     //   resolve: resolver(User.Todos. { separate: true })
@@ -74,4 +82,28 @@ const UserType = new GraphQLObjectType({
   interfaces: [ nodeInterface ]
 });
 
-export { User, UserType, UserDef };
+const UserMutation = mutationWithClientMutationId({
+  name: 'UserMutation',
+  inputFields: {
+    ...UserFields
+  },
+  outputFields: {
+    user: {
+      type: UserType,
+      resolve: ({ user }) => user
+    }
+  },
+  mutateAndGetPayload: async ({ firstName, lastName, email }) => {
+    const user = await User.create({
+      firstName,
+      lastName,
+      email
+    });
+
+    return {
+      user
+    };
+  }
+});
+
+export { User, UserType, UserDef, UserMutation };

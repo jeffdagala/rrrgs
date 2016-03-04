@@ -3,14 +3,14 @@
     "username": null,
     "password": null,
     "database": "database_development",
-    "storage" : "/tmp/database_development.sqlite",
+    "storage" : "/tmp/rrrgs.sqlite",
     "dialect" : "sqlite"
   },
   "test": {
     "username": null,
     "password": null,
     "database": "database_test",
-    "storage" : "/tmp/database_test.sqlite",
+    "storage" : "/tmp/rrrgs.sqlite",
     "dialect" : "sqlite"
   },
   "production": {
