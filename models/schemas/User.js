@@ -4,6 +4,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLNonNull,
+  GraphQLInt,
   GraphQLID
   // GraphQLList // uncomment this when Todos are implemented.
 } from 'graphql';
@@ -82,8 +83,8 @@ const UserType = new GraphQLObjectType({
   interfaces: [ nodeInterface ]
 });
 
-const UserMutation = mutationWithClientMutationId({
-  name: 'UserMutation',
+const UserCreate = mutationWithClientMutationId({
+  name: 'UserCreateMutation',
   inputFields: {
     ...UserFields
   },
@@ -106,4 +107,51 @@ const UserMutation = mutationWithClientMutationId({
   }
 });
 
-export { User, UserType, UserDef, UserMutation };
+const UserUpdate = mutationWithClientMutationId({
+  name: 'UserUpdateMutation',
+  inputFields: {
+    id: {
+      type: new GraphQLNonNull(GraphQLInt),
+      description: 'The id of the user.'
+    },
+    firstName: {
+      type: GraphQLString,
+      description: 'The first/given name of a particular user.'
+    },
+    lastName: {
+      type: GraphQLString,
+      description: 'The last name of a particular user.'
+    },
+    email: {
+      type: EmailType,
+      description: 'A valid email address of a user'
+    }
+  },
+  outputFields: {
+    user: {
+      type: UserType,
+      resolve: ({ user }) => user
+    }
+  },
+  mutateAndGetPayload: async (updateParams) => {
+    const user = await User.update(updateParams, {
+      where: {
+        id: updateParams.id
+      }
+    }).then(async () => {
+      const result = await User.findOne({
+        id: updateParams.id
+      }).then(({ dataValues }) => {
+        const val = dataValues;
+        return val;
+      });
+      return result;
+    });
+
+    return {
+      user
+    };
+  }
+});
+
+export { User, UserType, UserDef, UserCreate, UserUpdate };

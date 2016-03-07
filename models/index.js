@@ -17,7 +17,7 @@ const {
 } = sequelizeNodeInterface(sequelize);
 
 
-import { User, UserType, UserMutation } from './schemas';
+import { User, UserType, UserCreate, UserUpdate } from './schemas';
 
 nodeTypeMapper.mapTypes({
   [User.name]: UserType
@@ -45,7 +45,8 @@ const RootSchema = new GraphQLSchema({
   mutation: new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-      createUser: UserMutation
+      createUser: UserCreate,
+      updateUser: UserUpdate
     }
   })
 });
