@@ -141,10 +141,7 @@ const UserUpdate = mutationWithClientMutationId({
     }).then(async () => {
       const result = await User.findOne({
         id: updateParams.id
-      }).then(({ dataValues }) => {
-        const val = dataValues;
-        return val;
-      });
+      }).then(({ dataValues }) => dataValues);
       return result;
     });
 
