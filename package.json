@@ -8,7 +8,7 @@
     "start": "babel-node index.js",
     "lint": "eslint .",
     "sequelize:cli": "sequelize",
-    "start-dev" : "npm run sequelize:cli -- db:migrate && npm start"
+    "start-dev": "npm run sequelize:cli -- db:migrate && npm start"
   },
   "repository": {
     "type": "git",
@@ -50,6 +50,7 @@
     "koa": "^1.1.2",
     "koa-graphql": "^0.4.4",
     "koa-mount": "^1.3.0",
+    "koa-router": "^5.4.0",
     "koa-session": "^3.3.1",
     "sequelize": "^3.19.3",
     "sqlite3": "^3.1.1"
