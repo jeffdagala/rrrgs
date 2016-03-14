@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import KoaRouter from 'koa-router';
+import cors from 'koa-cors';
 import mount from 'koa-mount';
 import session from 'koa-session';
 import chalk from 'chalk';
@@ -37,6 +38,7 @@ app.use(router.allowedMethods());
 
 app.keys = [ '1nm3w3n1' ];
 
+app.use(new cors);
 
 app.use(
   mount(
