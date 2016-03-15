@@ -3,9 +3,9 @@ import sequelize from '../adapters';
 import {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLNonNull,
-  GraphQLInt,
-  GraphQLID
+  GraphQLNonNull
+  // GraphQLInt,
+  // GraphQLID
   // GraphQLList // uncomment this when Todos are implemented.
 } from 'graphql';
 
@@ -18,7 +18,13 @@ const {
 } = sequelizeNodeInterface(sequelize);
 
 import {
-  mutationWithClientMutationId
+  mutationWithClientMutationId,
+  // connectionArgs,
+  // connectionDefinitions,
+  // connectionFromArray,
+  // cursorForObjectInConnection,
+  fromGlobalId,
+  globalIdField
 } from 'graphql-relay';
 
 // import {
@@ -70,10 +76,7 @@ const UserType = new GraphQLObjectType({
   name: 'User',
   description: 'A User object.',
   fields: {
-    id: {
-      type: new GraphQLNonNull(GraphQLID),
-      description: 'The id of the user.'
-    },
+    id: globalIdField('User'),
     ...UserFields
     // todos: {
     //   type: new GraphQLList(TodoType),
@@ -110,10 +113,7 @@ const UserCreate = mutationWithClientMutationId({
 const UserUpdate = mutationWithClientMutationId({
   name: 'UserUpdateMutation',
   inputFields: {
-    id: {
-      type: new GraphQLNonNull(GraphQLInt),
-      description: 'The id of the user.'
-    },
+    id: globalIdField('User'),
     firstName: {
       type: GraphQLString,
       description: 'The first/given name of a particular user.'
@@ -134,6 +134,8 @@ const UserUpdate = mutationWithClientMutationId({
     }
   },
   mutateAndGetPayload: async (updateParams) => {
+    const resultFromGlobalId = fromGlobalId(updateParams.id);
+    updateParams.id = parseInt(resultFromGlobalId.id);
     const user = await User.update(updateParams, {
       where: {
         id: updateParams.id
