@@ -25,8 +25,21 @@ nodeTypeMapper.mapTypes({
 
 const RootSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
-    name: 'RootType',
+    name: 'Queries',
     fields: {
+      list: {
+        type: new GraphQLObjectType({
+          name: 'List',
+          description: 'List request can be fetch here.',
+          fields: {
+            users: {
+              type: new GraphQLList(UserType),
+              resolve: resolver(User, { include: false })
+            }
+          }
+        }),
+        resolve: () => ({}) // this will return empty object.
+      },
       user: {
         type: UserType,
         args: {
@@ -34,10 +47,6 @@ const RootSchema = new GraphQLSchema({
             type: new GraphQLNonNull(GraphQLInt)
           }
         },
-        resolve: resolver(User, { include: false })
-      },
-      users: {
-        type: new GraphQLList(UserType),
         resolve: resolver(User, { include: false })
       }
     }

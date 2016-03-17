@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import graphqlHTTP from 'koa-graphql';
 
 import { graphql } from 'graphql';
-import { introspectionQuery } from 'graphql/utilities';
+import { introspectionQuery, printSchema } from 'graphql/utilities';
 
 
 // common/shared models throughout the app.
@@ -31,6 +31,10 @@ const router = new KoaRouter;
 // Route for getting schema json that is needed for relay.
 router.get('/schema', function *() {
   this.body = yield graphql(RootSchema, introspectionQuery);
+});
+
+router.get('/schema/print', function *() {
+  this.body = printSchema(RootSchema);
 });
 
 app.use(router.routes());

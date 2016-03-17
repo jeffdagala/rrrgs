@@ -57,15 +57,18 @@ const User = sequelize.define('user', UserDef);
 const UserFields = {
   firstName: {
     type: new GraphQLNonNull(GraphQLString),
-    description: 'The first/given name of a particular user.'
+    description: 'The first/given name of a particular user.',
+    resolve: (user) => user.firstName
   },
   lastName: {
     type: new GraphQLNonNull(GraphQLString),
-    description: 'The last name of a particular user.'
+    description: 'The last name of a particular user.',
+    resolve: (user) => user.lastName
   },
   email: {
     type: EmailType,
-    description: 'A valid email address'
+    description: 'A valid email address',
+    resolve: (user) => user.email
   }
 };
 
@@ -134,15 +137,15 @@ const UserUpdate = mutationWithClientMutationId({
     }
   },
   mutateAndGetPayload: async (updateParams) => {
-    const resultFromGlobalId = fromGlobalId(updateParams.id);
-    updateParams.id = parseInt(resultFromGlobalId.id);
+    let { id } = fromGlobalId(updateParams.id);
+    id = parseInt(id);
     const user = await User.update(updateParams, {
       where: {
-        id: updateParams.id
+        id
       }
     }).then(async () => {
       const result = await User.findOne({
-        id: updateParams.id
+        id
       }).then(({ dataValues }) => dataValues);
       return result;
     });
